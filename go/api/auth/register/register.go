@@ -12,11 +12,12 @@ import (
 
 type RegisterRequest struct {
 	// IdUser   int    `form:"id_user"`
-	Username string `form:"username" binding:"required"`
-	Nama     string `form:"nama_user" binding:"required"`
-	Email    string `form:"email" binding:"required"`
-	Alamat   string `form:"alamat" binding:"required"`
-	Password string `form:"password" binding:"required"`
+	Username        string `form:"username" binding:"required"`
+	Nama            string `form:"nama_user" binding:"required"`
+	Email           string `form:"email" binding:"required"`
+	Alamat          string `form:"alamat" binding:"required"`
+	Password        string `form:"password" binding:"required"`
+	ConfirmPassword string `form:"confirmpassword" binding:"required"`
 }
 
 func Register(r *gin.Engine, db *gorm.DB) {
@@ -25,6 +26,12 @@ func Register(r *gin.Engine, db *gorm.DB) {
 
 		if err := c.ShouldBind(&registerRequest); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Permintaan tidak valid!"})
+			return
+		}
+
+		// Validasi konfirmasi password
+		if registerRequest.Password != registerRequest.ConfirmPassword {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Konfirmasi password tidak sesuai!"})
 			return
 		}
 

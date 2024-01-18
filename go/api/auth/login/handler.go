@@ -25,9 +25,11 @@ func loginHandler(c *gin.Context, db *gorm.DB, user database.User) {
 		return
 	}
 	c.SetCookie("token", tokenString, 3600, "/", "localhost", false, true)
-	// c.SetCookie("token", tokenString, 3600, "/", "xhaeffer.me:11092", false, true)
+
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Login Berhasil!",
-		"token":   token,
+		"message":    "Login Berhasil!",
+		"token":      token,
+		"isLoggedIn": true,
+		"user":       user,
 	})
 }

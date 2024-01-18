@@ -21,9 +21,14 @@ func Listbata(r *gin.Engine, db *gorm.DB) {
 			return
 		}
 
+		// Encode images to base64
 		for i := range data {
-			encodedImage := base64.StdEncoding.EncodeToString(data[i].Foto)
-			data[i].EncodedFoto = encodedImage
+			fmt.Println("Original Foto Length:", len(data[i].Foto))
+
+			EncodedFoto := base64.StdEncoding.EncodeToString(data[i].Foto)
+			data[i].EncodedFoto = EncodedFoto
+
+			fmt.Println("Encoded Foto:", EncodedFoto)
 		}
 
 		c.JSON(http.StatusOK, data)

@@ -27,6 +27,9 @@ func Login(r *gin.Engine, db *gorm.DB) {
 		}
 
 		var user database.User
+		// 	if err := db.Where("username = ?", loginRequest.Identifier).First(&user).Error; err != nil {
+		// c.JSON(http.StatusUnauthorized, gin.H{"error": "Akun tidak terdaftar!"})
+		// return
 		if err := db.Where("username = ?", loginRequest.Identifier).First(&user).Error; err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Akun tidak terdaftar!"})
 			return
